@@ -1,0 +1,404 @@
+          SizedBox(
+            height: 500,
+            width: 400,
+            child: Card(
+              child: InteractiveViewer(
+                // transformationController: controller,
+                child: FadeInImage(
+                  fit: BoxFit.cover,
+                  placeholder: MemoryImage(kTransparentImage),
+                  image: PhotoProvider(mediumId: widget.filename),
+                  width: _width,
+                  height: _height,
+                ),
+              ),
+
+
+Center(
+        child: Container(
+          height: 150.0,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InteractiveViewer(
+                      child: FadeInImage(
+                        fit: BoxFit.cover,
+                        placeholder: MemoryImage(kTransparentImage),
+                        image: PhotoProvider(mediumId: widget.filename),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+
+
+
+
+
+
+    final temp = widget.filename;
+    Directory tempDir = await getTemporaryDirectory();
+    String tempPath = tempDir.path;
+
+    imagepath = '${tempPath}/${temp}';
+    imagefile = File(imagepath);
+    print(imagepath);
+    
+
+/storage/emulated/0/Android/media/com.whatsapp/WhatsApp/Media/WhatsApp Images/IMG-20220123-WA02.jpg
+/storage/emulated/0/DCIM/Screenshots/Screenshot_20220121_224328.jpg
+
+
+
+
+/storage/emulated/0/Android/data/com.example.mediaplayer/files/IMG_20220112_124731_035.jpg
+
+
+ String tempPath = tempDir +
+            '/Android/media/com.whatsapp/WhatsApp/Media' +
+            '/${widget.name}' +
+            '/${pickedFile}';
+
+    // var editMenu = Row(
+    //   mainAxisSize: MainAxisSize.min,
+    //   children: <Widget>[
+    //     // Icon for smart control images
+    //     Expanded(
+    //       child: Column(
+    //         children: [
+    //           IconButton(
+    //             icon: Icon(Icons.lightbulb_outline, size: 16),
+    //             // onPressed: () {
+    //             //   getimageditor();
+    //             // },
+    //             onPressed: () {},
+    //           ),
+    //           Text(
+    //             "Smartcontrol",
+    //             style: TextStyle(
+    //               fontSize: 10.0,
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+
+    //     // Icon for crop and rotate images
+    //     Expanded(
+    //       child: Column(
+    //         children: [
+    //           IconButton(
+    //             icon: Icon(Icons.crop_rotate, size: 16),
+    //             onPressed: () {
+    //               cropImage();
+    //             },
+    //             // onPressed: () {},
+    //           ),
+    //           Text(
+    //             "Crop+Rotate",
+    //             style: TextStyle(
+    //               fontSize: 10.0,
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+
+    //     // Icon for smart filter images
+    //     Expanded(
+    //       child: Column(
+    //         children: [
+    //           IconButton(
+    //             icon: Icon(Icons.filter, size: 16),
+    //             onPressed: () {
+    //               Navigator.of(context).push(MaterialPageRoute(
+    //                   builder: (context) => FilterImage(widget.id)));
+    //             },
+    //           ),
+    //           Text(
+    //             "Filter",
+    //             style: TextStyle(
+    //               fontSize: 10.0,
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+
+    //     // Icon for doodle images
+    //     Expanded(
+    //       child: Column(
+    //         children: [
+    //           IconButton(
+    //             icon: Icon(Icons.emoji_emotions, size: 16),
+    //             onPressed: () {
+    //               Navigator.of(context).push(MaterialPageRoute(
+    //                   builder: (context) => Sticker(widget.id)));
+    //             },
+    //           ),
+    //           Text(
+    //             "Sitcker",
+    //             style: TextStyle(
+    //               fontSize: 10.0,
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+
+    //     // Icon for add text on images
+    //     Expanded(
+    //       child: Column(
+    //         children: [
+    //           IconButton(
+    //             icon: Icon(Icons.text_fields, size: 16),
+    //             onPressed: () {
+    //               Navigator.push(
+    //                   context,
+    //                   MaterialPageRoute(
+    //                       builder: (context) => TextImage(widget.id)));
+    //               // Positioned(
+    //               //   top: MediaQuery.of(context).size.height * 0.18,
+    //               //   left: 0,
+    //               //   right: 0,
+    //               //   height: 400,
+    //               //   child: Container(
+    //               //     child: TextImage(),
+    //               //   ),
+    //               // );
+    //             },
+    //           ),
+    //           Text(
+    //             "Text",
+    //             style: TextStyle(
+    //               fontSize: 10.0,
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   ],
+    // );
+
+
+
+
+  get type => null;
+  Future<void> getimageditor() async {
+    openImage();
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return ImageEditorPro(
+        appBarColor: Colors.black87,
+        bottomBarColor: Colors.black87,
+        // pathSave: null,
+      );
+    })).then((geteditimage) {
+      if (geteditimage != null) {
+        setState(() {
+          _image = geteditimage;
+        });
+      }
+    }).catchError((er) {
+      print(er);
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+import 'package:firexcode/firexcode.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_editor_pro/modules/colors_picker.dart';
+
+// import 'colors_picker.dart';
+
+class TextImage extends StatefulWidget {
+  @override
+  _TextImageState createState() => _TextImageState();
+}
+
+class _TextImageState extends State<TextImage> {
+  TextEditingController name = TextEditingController();
+  Color currentColor = Colors.black;
+  double slider = 12.0;
+  @override
+  Widget build(BuildContext context) {
+    return xColumn
+        .list([
+          TextField(
+            controller: name,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.all(10),
+              hintText: 'Insert Your Message',
+              hintStyle: TextStyle(color: Colors.white),
+              alignLabelWithHint: true,
+            ),
+            scrollPadding: EdgeInsets.all(20.0),
+            keyboardType: TextInputType.multiline,
+            minLines: 5,
+            maxLines: 99999,
+            style: TextStyle(
+              color: Colors.white,
+            ),
+            autofocus: true,
+          ).toContainer(height: xheight(context) / 2.2),
+          xColumnCC.list([
+            //   20.0.sizedHeight(),
+            'Slider Color'.text(),
+            //   10.0.sizedHeight(),
+            xRowCC.list([
+              BarColorPicker(
+                  width: 300,
+                  thumbColor: Colors.white,
+                  cornerRadius: 10,
+                  pickMode: PickMode.Color,
+                  colorListener: (int value) {
+                    setState(() {
+                      currentColor = Color(value);
+                    });
+                  }).xExpanded(),
+              'Reset'.text().xFlatButton(onPressed: () {})
+            ]),
+            //   20.0.sizedHeight(),
+            'Slider White Black Color'.text(),
+            //   10.0.sizedHeight(),
+            xRowCC.list([
+              BarColorPicker(
+                  width: 300,
+                  thumbColor: Colors.white,
+                  cornerRadius: 10,
+                  pickMode: PickMode.Grey,
+                  colorListener: (int value) {
+                    setState(() {
+                      currentColor = Color(value);
+                    });
+                  }).xExpanded(),
+              'Reset'.text().xFlatButton(onPressed: () {})
+            ]),
+            xColumn.list([
+              10.0.sizedHeight(),
+              'Size Adjust'.toUpperCase().xTextColorWhite().toCenter(),
+              10.0.sizedHeight(),
+              Slider(
+                  activeColor: Colors.white,
+                  inactiveColor: Colors.grey,
+                  value: slider,
+                  min: 0.0,
+                  max: 100.0,
+                  onChangeEnd: (v) {
+                    setState(() {
+                      slider = v;
+                    });
+                  },
+                  onChanged: (v) {
+                    setState(() {
+                      slider = v;
+                    });
+                  }),
+            ]).toContainer(color: Colors.black)
+          ]).xContainer(color: Colors.white),
+        ])
+        .xSingleChildScroolView()
+        .xCenter()
+        .xScaffold(
+          backgroundColor: Colors.black,
+          appBar: AppBar(
+            backgroundColor: Colors.black,
+            actions: <Widget>[
+              align == TextAlign.left
+                  ? FontAwesomeIcons.alignLeft
+                      .xListTileIcon(
+                          color: Colors.white,
+                          onTap: () {
+                            setState(() {
+                              align = null;
+                            });
+                          })
+                      .xap(value: 5)
+                  : Icon(FontAwesomeIcons.alignLeft).xIconButton(onPressed: () {
+                      setState(() {
+                        align = TextAlign.left;
+                      });
+                    }),
+              align == TextAlign.center
+                  ? FontAwesomeIcons.alignCenter
+                      .xListTileIcon(
+                          color: Colors.white,
+                          onTap: () {
+                            setState(() {
+                              align = null;
+                            });
+                          })
+                      .xap(value: 5)
+                  : Icon(FontAwesomeIcons.alignCenter).xIconButton(
+                      onPressed: () {
+                      setState(() {
+                        align = TextAlign.center;
+                      });
+                    }),
+              align == TextAlign.right
+                  ? FontAwesomeIcons.alignRight
+                      .xListTileIcon(
+                          color: Colors.white,
+                          onTap: () {
+                            setState(() {
+                              align = null;
+                            });
+                          })
+                      .xap(value: 5)
+                  : Icon(FontAwesomeIcons.alignRight).xIconButton(
+                      onPressed: () {
+                      setState(() {
+                        align = TextAlign.right;
+                      });
+                    }),
+            ],
+          ),
+          bottomNavigationBar: 'Add Text'
+              .xTextColorWhite(
+                fontWeight: FontWeight.bold,
+                fontsize: 22,
+              )
+              .xFlatButton(
+                onPressed: () {
+                  Navigator.pop(context, {
+                    'name': name.text,
+                    'color': currentColor,
+                    'size': slider.toDouble(),
+                    'align': align
+                  });
+                },
+                color: Colors.black,
+                padding: EdgeInsets.all(15),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+              )
+              .xContainer(
+                color: Colors.white,
+              ),
+        );
+  }
+  TextAlign? align;
+}
