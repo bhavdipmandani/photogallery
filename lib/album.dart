@@ -60,7 +60,7 @@ class AlbumPageState extends State<AlbumPage> {
                             style: TextStyle(fontSize: 15.0),
                           ),
                           onPressed: () {
-                            // setState(() => ThumbnailProvider.removeAt(medium.id));
+
                           },
                         ),
                       )

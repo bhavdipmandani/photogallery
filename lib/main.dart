@@ -1,4 +1,4 @@
-// ignore_for_file: import_of_legacy_library_into_null_safe, prefer_const_constructors, deprecated_member_use, unnecessary_null_comparison, avoid_print, unnecessary_new, unnecessary_string_interpolations, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables, unused_import
+// ignore_for_file: import_of_legacy_library_into_null_safe, prefer_const_constructors, deprecated_member_use, unnecessary_null_comparison, avoid_print, unnecessary_string_interpolations, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables, unused_import
 
 import 'dart:async';
 import 'dart:io';

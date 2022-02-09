@@ -124,8 +124,6 @@ class _StickerState extends State<Sticker> {
                     .create();
                 file.writeAsBytesSync(imageInUnit8List);
 
-                // print(file);
-
                 Navigator.pop(context, file);
                 // ShowCapturedWidget(context, file);
               }).catchError((onError) {

@@ -54,8 +54,6 @@ class _TextImageState extends State<TextImage> {
                     .create();
                 file.writeAsBytesSync(imageInUnit8List);
 
-                // print(file);
-
                 Navigator.pop(context, file);
                 // ShowCapturedWidget(context, file);
               }).catchError((onError) {

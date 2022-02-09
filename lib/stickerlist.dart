@@ -8,5 +8,6 @@ List stickerList = [
   'assets/icons8-pagoda-48.png',
   'assets/icons8-spring-48.png',
   'assets/icons8-totoro-48.png',
+  'assets/simplest-example.png',
   'assets/icons8-year-of-dragon-48.png'
 ];

@@ -46,7 +46,6 @@ class _VideoProviderState extends State<VideoProvider> {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: unnecessary_null_comparison
     return _controller == null || !_controller!.value.isInitialized
         ? Container()
         : Column(

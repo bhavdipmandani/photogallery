@@ -64,7 +64,6 @@ class _FilterImageState extends State<FilterImage> {
                     .create();
                 file.writeAsBytesSync(imageInUnit8List);
 
-                // print(file);
 
                 Navigator.pop(context, file);
                 // ShowCapturedWidget(context, file);

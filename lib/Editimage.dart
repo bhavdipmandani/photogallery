@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
-// ignore: i
 import 'package:photogallery/Filterimage.dart';
 import 'package:photogallery/addText/texteditor.dart';
 import 'package:photogallery/blur.dart';

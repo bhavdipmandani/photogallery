@@ -56,9 +56,6 @@ class _BlurImageState extends State<BlurImage> {
                 final file = await File('${tempDir.path}/IMG_$randomNumber.jpg')
                     .create();
                 file.writeAsBytesSync(imageInUnit8List);
-
-                // print(file);
-
                 Navigator.pop(context, file);
                 // ShowCapturedWidget(context, file);
               }).catchError((onError) {

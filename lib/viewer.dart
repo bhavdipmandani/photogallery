@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_import, prefer_const_constructors_in_immutables, use_key_in_widget_constructors, prefer_initializing_formals, unnecessary_string_interpolations, unused_element, unnecessary_null_comparison, unnecessary_cast, await_only_futures, empty_statements, prefer_const_constructors, unnecessary_new, deprecated_member_use
+// ignore_for_file: unnecessary_import, prefer_const_constructors_in_immutables, use_key_in_widget_constructors, prefer_initializing_formals, unnecessary_string_interpolations, unused_element, unnecessary_null_comparison, unnecessary_cast, await_only_futures, empty_statements, prefer_const_constructors, unnecessary_new, deprecated_member_use, unused_local_variable
 // ignore_for_file: unused_import
 import 'dart:io';
 import 'dart:async';
@@ -7,11 +7,13 @@ import 'dart:math';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:ext_storage/ext_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:photogallery/Editimage.dart';
+import 'package:photogallery/addwallpaper.dart';
 import 'package:photogallery/videoprovider.dart';
 import 'package:photo_gallery/photo_gallery.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -22,10 +24,6 @@ import 'package:share_plus/share_plus.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:path_provider/path_provider.dart';
 import 'package:image_cropper/image_cropper.dart';
-
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
-
 
 
 class ViewerPage extends StatefulWidget {
@@ -66,7 +64,7 @@ class _ViewerPageState extends State<ViewerPage> {
   //   super.dispose();
   // }
 
-  late File imageview;
+  File? imageview;
 
   void imageView() async {
     String tempDir = await ExtStorage.getExternalStoragePublicDirectory(
@@ -95,18 +93,26 @@ class _ViewerPageState extends State<ViewerPage> {
     var i = (log(bytes) / log(1024)).floor();
     return ((bytes / pow(1024, i)).toStringAsFixed(decimals)) + suffixes[i];
   }
+    deleteFile() async {
+    try {
+      // final tempDir = await getTemporaryDirectory();
+      final tempDir = await getApplicationDocumentsDirectory();
 
-  void deleteFile() async {
-
+      File path = File(tempDir.path + '/${widget.name}' + '/${widget.medium!.filename}');
+      final file = await path;
+      file.delete();
+    } catch (e) {
+      return 0;
+    }
   }
 
-  Future<void> _displayDialog() async {
-    DateTime? date = widget.medium?.creationDate ?? widget.medium?.modifiedDate;
-    var decodedImage = await decodeImageFromList(imageview.readAsBytesSync());
+  Future<void> _imageDetail() async {
+    DateTime? date = widget.medium!.creationDate ?? widget.medium!.modifiedDate;
+    var decodedImage = await decodeImageFromList(imageview!.readAsBytesSync());
 
     String tempDir = await ExtStorage.getExternalStoragePublicDirectory(
         ExtStorage.DIRECTORY_DCIM);
-    String path = (tempDir + '/${widget.name}') + '/${widget.medium!.filename}';
+    String path = tempDir + '/${widget.name}' + '/${widget.medium!.filename}';
 
     return showCupertinoDialog(
       context: context,
@@ -114,65 +120,50 @@ class _ViewerPageState extends State<ViewerPage> {
       builder: (BuildContext context) => CupertinoAlertDialog(
         title: Text('Image Details'),
         content: Column(
-            children: <Widget>[
-              Text(
-                "File Name :",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                '${widget.medium!.filename}\n',
-                style: TextStyle(fontSize: 15.0),
-              ),
-              Text(
-                "Time :",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                '${date != null ? (date.toLocal().toString()) : null}\n',
-                style: TextStyle(fontSize: 15.0),
-              ),
-              Text(
-                "More Details :",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                'Size: ${decodedImage.width} * ${decodedImage.height}',
-                style: TextStyle(fontSize: 15.0),
-              ),
-              Text(
-                'File Size: ${getFileSizeString(bytes: imageview.lengthSync())}',
-                style: TextStyle(fontSize: 15.0),
-              ),
-              Text(
-                'Path: $path',
-                style: TextStyle(fontSize: 14.0),
-              ),
-            ],
-          ),
+          children: <Widget> [
+            Text(
+              "File Name :",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              '${widget.medium!.filename}\n',
+              style: TextStyle(fontSize: 15.0),
+            ),
+            Text(
+              "Time :",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              '${date != null ? (date.toLocal().toString()) : null}\n',
+              style: TextStyle(fontSize: 15.0),
+            ),
+            Text(
+              "More Details :",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              'Size: ${decodedImage.width} * ${decodedImage.height}',
+              style: TextStyle(fontSize: 15.0),
+            ),
+            Text(
+              'File Size: ${getFileSizeString(bytes: imageview!.lengthSync())}',
+              style: TextStyle(fontSize: 15.0),
+            ),
+            Text(
+              'Path: $path',
+              style: TextStyle(fontSize: 14.0),
+            ),
+          ],
+        ),
       ),
     );
-  }
-
-  Future<void> setWallpaperFromFile() async {
-    String result;
-    String tempDir = await ExtStorage.getExternalStoragePublicDirectory(
-        ExtStorage.DIRECTORY_DCIM);
-    File path =File((tempDir + '/${widget.name}') + '/${widget.medium!.filename}');
-
-    try {
-      result = (await WallpaperManager.setWallpaperFromFile(
-          path.path, WallpaperManager.BOTH_SCREEN)) as String;
-    } on PlatformException {
-      result = 'Failed to get wallpaper.';
-    }
-    if (!mounted) return;
   }
 
   @override
   Widget build(BuildContext context) {
     // late TrackingScrollController controller;
 
-    DateTime? date = widget.medium?.creationDate ?? widget.medium?.modifiedDate;
+    // DateTime? date = widget.medium?.creationDate ?? widget.medium?.modifiedDate;
 
     var imageName = '${widget.medium!.filename}';
 
@@ -193,7 +184,7 @@ class _ViewerPageState extends State<ViewerPage> {
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.info_outline),
-              onPressed: () => _displayDialog(),
+              onPressed: () => _imageDetail(),
             ),
           ],
         ),
@@ -221,7 +212,7 @@ class _ViewerPageState extends State<ViewerPage> {
                     // transformationController: controller,
                     child: Container(
                       decoration: BoxDecoration(
-                          image: DecorationImage(image: FileImage(imageview))),
+                          image: DecorationImage(image: FileImage(imageview!))),
                     ),
                   ),
                 )
@@ -229,7 +220,6 @@ class _ViewerPageState extends State<ViewerPage> {
                   mediumId: widget.medium!.id,
                 ),
         ),
-
         bottomNavigationBar: SizedBox(
           height: 60,
           child: Row(
@@ -278,20 +268,9 @@ class _ViewerPageState extends State<ViewerPage> {
                   color: Colors.white,
                   size: 25.0,
                 ),
-                // onPressed: () async {
-                //   String tempDir =
-                //   await ExtStorage.getExternalStoragePublicDirectory(
-                //       ExtStorage.DIRECTORY_DCIM);
-                //   final targetFile = (tempDir + '/${widget.name}') +
-                //       '/${widget.medium!.filename}';
-                //   if(targetFile.existsSync()) {
-                //     targetFile.deleteSync(recursive: true);
-                //   }
-                // }
                 onPressed: () async {
                   deleteFile();
                 },
-
               ),
               IconButton(
                 icon: const Icon(
@@ -299,8 +278,23 @@ class _ViewerPageState extends State<ViewerPage> {
                   color: Colors.white,
                   size: 25.0,
                 ),
-                onPressed: () {
-                  setWallpaperFromFile();
+                // onPressed: () {
+                //   setWallpaper();
+                // },
+                onPressed: () async {
+                  String tempDir =
+                  await ExtStorage.getExternalStoragePublicDirectory(
+                      ExtStorage.DIRECTORY_DCIM);
+                  File path1 = File(tempDir + '/${widget.name}' + '/${widget.medium!.filename}');
+                  final result = await Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => ImageWallpaper(
+                              widget.medium!.filename!,
+                              widget.name!,
+                              path1)));
+                  setState(() {
+                    imageview = result;
+                  });
                 },
               ),
             ],
